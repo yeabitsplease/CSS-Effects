@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+            background-color: #000000;
+        }
+        
+        @keyframes Rotate {
+            0% {
+                transform: rotateZ(0deg);
+            }
+            100% {
+                transform: rotateZ(180deg);
+            }
+        }
+        
+        .sq {
+            position: relative;
+            display: inline-block;
+            min-width: 50px;
+            min-height: 50px;
+            border: 5px solid #FFFFFF;
+            padding: 10px;
+            transform-origin: 50% 50%;
+            animation-name: Rotate;
+            animation-duration: 15s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        
+        .container {
+            margin-top: 200px;
+            left: calc(50% - 120px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sq container">
+        <div class="sq">
+            <div class="sq">
+                <div class="sq">
+                    <div class="sq">
+                        <div class="sq">
+                            <div class="sq">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
