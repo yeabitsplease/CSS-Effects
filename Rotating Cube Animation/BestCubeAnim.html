@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="X:\Blog\Css\BestCubeAnim.css">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r99/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+
+
+
+
+
+</head>
+
+<body style="background-color: black;">
+
+</body>
+<script>
+    let amount = 50;
+    let sceneArray = [];
+    let cubeArray = [];
+    let lightArray = [];
+    let opacity = 0.075;
+    let options = {
+        shape: new THREE.BoxGeometry()
+    }
+
+    let windowHalfX = window.innerWidth / 2;
+    let windowHalfY = window.innerHeight / 2;
+    let mouseX = 0;
+    let mouseY = 0;
+
+    let camera, renderer, material;
+
+    function init() {
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        for (let i = 0; i < amount; i++) {
+            sceneArray[i] = new THREE.Scene();
+
+            var light = new THREE.AmbientLight(0x999999);
+            sceneArray[i].add(light);
+            lightArray[i] = new THREE.DirectionalLight(0xffffff, 0.85);
+            sceneArray[i].add(lightArray[i]);
+
+            geometry = options.shape;
+            geometry.verticesNeedUpdate = true;
+            material = new THREE.MeshPhongMaterial({
+                color: 0x2194CE,
+                opacity: opacity,
+                transparent: true,
+            });
+            opacity += 0.001;
+            cubeArray[i] = new THREE.Mesh(geometry, material);
+            sceneArray[i].add(cubeArray[i]);
+        }
+
+
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        camera.position.z = 17.75;
+    }
+
+    init();
+
+    let animate = function() {
+        requestAnimationFrame(animate);
+        renderer.autoClear = true;
+
+        for (let i = 0; i < amount; i++) {
+            cubeArray[i].rotation.x += 0.0025;
+            cubeArray[i].rotation.y += i / 750;
+
+            cubeArray[i].position.x = 1 / amount;
+            cubeArray[i].position.z = i / 3;
+
+            lightArray[i].position.set(i / 100, 0, i * 100);
+
+            renderer.render(sceneArray[i], camera);
+            renderer.autoClear = false;
+        }
+    };
+
+    animate();
+
+    // GUI Controls
+    // var gui = new dat.GUI();
+    // let shapeSelect = gui.add(options, 'shape', { 
+    //   Square: new THREE.BoxGeometry(), 
+    //   Sphere: new THREE.SphereGeometry()
+    // }).name('Shape');
+
+    // shapeSelect.onChange(function (value) {
+    //     changeShape();
+    // });
+</script>
+
+</html>
